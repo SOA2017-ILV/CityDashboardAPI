@@ -85,6 +85,3 @@ def business(business_id)
   response = HTTP.auth(bearer_token).get(url)
   response.parse
 end
-
-search(DEFAULT_TERM, DEFAULT_LOCATION)["businesses"].each {|biz| puts biz["name"]}
-puts JSON.pretty_generate(business(DEFAULT_BUSINESS_ID))
