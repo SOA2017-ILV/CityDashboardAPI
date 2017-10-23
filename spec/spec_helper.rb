@@ -10,7 +10,7 @@ require 'minitest/rg'
 require 'vcr'
 require 'webmock'
 
-require_relative '../lib/yelp_info.rb'
+require_relative '../lib/yelp_api.rb'
 
 CONFIG = YAML.safe_load(File.read('config/secrets.yml'))
 YELP_TOKEN = CONFIG['yelp_token']

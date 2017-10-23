@@ -20,4 +20,17 @@ describe 'Test City Dashboard' do
   after do
     VCR.eject_cassette
   end
+
+  describe 'Yelp information' do
+    it 'HAPPY: should ' do
+      resp = CityDashboard::YelpApi.new(YELP_TOKEN).business('yelp-san-francisco')
+      _(resp['name']).must_equal CORRECT['name']
+      _(resp['location']['city']).must_equal CORRECT['location']['city']
+    end
+    it 'SAD: should raise exception when unauthorized' do
+      proc do
+        CityDashboard::YelpApi.new('bad_token').search('dinner', 'SF')
+      end.must_raise CityDashboard::Errors::Unauthorized
+    end
+  end
 end

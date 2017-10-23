@@ -100,7 +100,7 @@ module CityDashboard
 
     private
 
-    def call_yelp_url(url, params = Null)
+    def call_yelp_url(url, params = nil)
       auth = "Bearer #{@yelp_token}"
       # resp = HTTP.headers('Authorization' => auth).get(url, params: params)
       resp = HTTP.auth(auth).get(url, params: params)

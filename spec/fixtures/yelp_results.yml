@@ -1,0 +1,58 @@
+---
+id: yelp-san-francisco
+name: Yelp
+image_url: https://s3-media2.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/o.jpg
+is_claimed: true
+is_closed: false
+url: https://www.yelp.com/biz/yelp-san-francisco?adjust_creative=K5qzEBbLi0VoiW4hxZFvMA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=K5qzEBbLi0VoiW4hxZFvMA
+phone: "+14159083801"
+display_phone: "(415) 908-3801"
+review_count: 7715
+categories:
+- alias: massmedia
+  title: Mass Media
+rating: 2.5
+location:
+  address1: 140 New Montgomery St
+  address2: ''
+  address3: ''
+  city: San Francisco
+  zip_code: '94105'
+  country: US
+  state: CA
+  display_address:
+  - 140 New Montgomery St
+  - San Francisco, CA 94105
+  cross_streets: Natoma St & Minna St
+coordinates:
+  latitude: 37.7867703362929
+  longitude: -122.399958372115
+photos:
+- https://s3-media2.fl.yelpcdn.com/bphoto/nQK-6_vZMt5n88zsAS94ew/o.jpg
+- https://s3-media2.fl.yelpcdn.com/bphoto/yFHIb9gob4TzhKUemMOPww/o.jpg
+- https://s3-media1.fl.yelpcdn.com/bphoto/EHCfkEpZraIfPl8gvCo1tg/o.jpg
+hours:
+- open:
+  - is_overnight: false
+    start: '0800'
+    end: '1800'
+    day: 0
+  - is_overnight: false
+    start: '0800'
+    end: '1800'
+    day: 1
+  - is_overnight: false
+    start: '0800'
+    end: '1800'
+    day: 2
+  - is_overnight: false
+    start: '0800'
+    end: '1800'
+    day: 3
+  - is_overnight: false
+    start: '0800'
+    end: '1800'
+    day: 4
+  hours_type: REGULAR
+  is_open_now: false
+transactions: []
