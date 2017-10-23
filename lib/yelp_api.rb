@@ -14,22 +14,32 @@ module CityDashboard
 
   # Library for Yelp Web API
   class YelpApi
-    SECRET_CONFIG = YAML.safe_load(File.read('config/secrets.yml'))
+    DEFAULT_SEARCH_LIMIT = 5
+    # Encapsulates API response success and errors
+    class Response
+      HTTP_ERROR = {
+        401 => Errors::Unauthorized,
+        404 => Errors::NotFound
+      }.freeze
 
-    # Constants, do not change these
-    API_HOST = 'https://api.yelp.com'.freeze
-    SEARCH_PATH = '/v3/businesses/search'.freeze
-    BUSINESS_PATH = '/v3/businesses/'.freeze
-    TOKEN_PATH = '/oauth2/token'.freeze
-    GRANT_TYPE = 'client_credentials'.freeze
-    # Returns your access token
-    def bearer_token
-      "Bearer #{SECRET_CONFIG['yelp_token']}"
+      def initialize(response)
+        @response = response
+      end
+
+      def successful?
+        HTTP_ERROR.keys.include?(@response.code) ? false : true
+      end
+
+      def response_or_error
+        successful? ? @response : raise(HTTP_ERROR[@response.code])
+      end
     end
 
-    # Make a request to the Fusion search endpoint. Full documentation is online at:
-    # https://www.yelp.com/developers/documentation/v3/business_search
-    #
+    def initialize(token)
+      @yelp_token = token
+    end
+
+    # Make a request to the Fusion search endpoint.
     # term - search term used to find businesses
     # location - what geographic location the search should happen
     #
@@ -54,16 +64,15 @@ module CityDashboard
     #        }
     #
     # Returns a parsed json object of the request
-    def search(term, location)
-      url = "#{API_HOST}#{SEARCH_PATH}"
+    def search(term, location, search_limit = DEFAULT_SEARCH_LIMIT)
       params = {
         term: term,
         location: location,
-        limit: SEARCH_LIMIT
+        limit: search_limit
       }
 
-      response = HTTP.auth(bearer_token).get(url, params: params)
-      response.parse
+      search_url = YelpApi.path('/v3/businesses/search')
+      call_yelp_url(search_url, params).parse
     end
 
     # Look up a business by a given business id.
@@ -81,10 +90,21 @@ module CityDashboard
     #
     # Returns a parsed json object of the request
     def business(business_id)
-      url = "#{API_HOST}#{BUSINESS_PATH}#{business_id}"
+      business_url = YelpApi.path("/v3/businesses/#{business_id}")
+      call_yelp_url(business_url).parse
+    end
 
-      response = HTTP.auth(bearer_token).get(url)
-      response.parse
+    def self.path(path)
+      'https://api.yelp.com' + path
+    end
+
+    private
+
+    def call_yelp_url(url, params = Null)
+      auth = "Bearer #{@yelp_token}"
+      # resp = HTTP.headers('Authorization' => auth).get(url, params: params)
+      resp = HTTP.auth(auth).get(url, params: params)
+      Response.new(resp).response_or_error
     end
   end
 end
